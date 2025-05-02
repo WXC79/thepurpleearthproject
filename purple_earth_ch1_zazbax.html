@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Purple Earth Project - Chapter 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: black;
+      color: #00FF00;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 20px;
+      font-size: 18px;
+    }
+    .option {
+      display: block;
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #002200;
+      border: 1px solid #00FF00;
+      color: #00FFFF;
+      font-size: 16px;
+      border-radius: 5px;
+      touch-action: manipulation;
+    }
+    .option:active {
+      background-color: #003300;
+    }
+  </style>
+</head>
+<body>
+  <div id="story"></div>
+  <div id="options"></div>
+
+  <script>
+    const story = {
+      start: {
+        text: `CHAPTER 1: zazbax:k|
+
+You awaken with soil in your mouth. Not metaphorical—coarse, gray, alkaline grit. It cakes your teeth. You cough, but your lungs draw only memory: the echo of fire, the crush of pressure, and finally... silence.
+
+The ground around you is scorched and barren, laced with mineral veins like veins in a dead hand. The atmosphere is dense with violet haze—no wind, no sun, no horizon, only gradients of decay.
+
+In the pit beside you: a fragment of the drone nest. Cracked, humming. Something still alive in it.
+
+A signal pulses from below. Faint. Repeating. Begging to be heard.`,
+
+        options: [
+          { text: "Approach the drone fragment", next: "drone" },
+          { text: "Place your hand to the soil", next: "soil" }
+        ]
+      },
+      drone: {
+        text: `The drone is half-melted. Panels twisted like dried leaves. But at its heart: a neural signal tuner, still humming. Cracked, exposed, but operational.
+
+As you touch it, heat blooms in your fingertips. Not physical—cognitive. You feel signal patterns bleeding into your skin. The tuner accepts you.
+
+[Item acquired: Drone Signal Tuner]
+
+The ground pulses beneath you again. The soil wants to speak. Now, with the tuner, maybe you can understand.`,
+
+        options: [
+          { text: "Use tuner and place your hand to the soil", next: "merge" }
+        ]
+      },
+      soil: {
+        text: `Your fingers press into the dirt. It hisses—sharp, electric, almost angry. You feel something ancient stir beneath the crust. Your mind fragments for a moment. You see glyphs—faint, illegible.
+
+You have no tuner. No translator. Just instinct.
+
+The signal pulses again, unreadable.`,
+
+        options: [
+          { text: "Approach the drone fragment", next: "drone" },
+          { text: "Ignore the signal and rest", next: "fail" }
+        ]
+      },
+      fail: {
+        text: `You lie back. The static in the ground builds, then dissipates. Whatever chance you had to connect fades. You are alone again.
+
+[FAIL STATE: Signal lost. Rebooting cycle...]
+
+Return to beginning.`,
+        options: [
+          { text: "RESTART CHAPTER", next: "start" }
+        ]
+      },
+      merge: {
+        text: `You kneel. Tuner in one hand, the other buried in soil. Signal floods through your neural stem. It burns—but you endure.
+
+Colors erupt behind your eyes. Pulses. Fractal shapes. Mycelial lattices forming languages.
+
+You don't breathe. You don't need to. You are being spoken to—through cell and symbol.
+
+The glyphs align.
+
+You are accepted.
+
+[Mutation sequence initiated.]
+
+Chapter Complete.`,
+        options: [
+          { text: "Proceed to Chapter 2", next: "end" }
+        ]
+      },
+      end: {
+        text: `CHAPTER 1 COMPLETE: You have begun to awaken. Your body is no longer entirely yours.
+
+[Save state unlocked. Chapter 2: ff!m¤x4v:9u_ will begin next.]`,
+        options: []
+      }
+    };
+
+    function renderScene(sceneKey) {
+      const scene = story[sceneKey];
+      document.getElementById("story").textContent = scene.text;
+      const optionsContainer = document.getElementById("options");
+      optionsContainer.innerHTML = '';
+      scene.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = option.text;
+        btn.onclick = () => renderScene(option.next);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    renderScene("start");
+  </script>
+</body>
+</html>
